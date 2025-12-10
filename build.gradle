@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'eventee.server:common:0.0.1-SNAPSHOT'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -26,4 +27,15 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+repositories {
+	maven {
+		name = 'GitHubPackages'
+		url = uri("https://maven.pkg.github.com/KTEventee/eventee-common")  // GitHub 리포지토리 URL
+		credentials {
+			username = project.findProperty("gpr.user") ?: System.getenv("COMMON_USERNAME_GITHUB")
+			password = project.findProperty("gpr.token") ?: System.getenv("COMMON_TOKEN_GITHUB")
+		}
+	}
 }
