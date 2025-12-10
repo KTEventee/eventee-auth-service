@@ -1,13 +1,14 @@
 package eventee.server.auth.token;
 
-import static com.server.eventee.global.token.JwtProperties.*;
+
+import static eventee.server.auth.token.JwtProperties.ACCESS_TOKEN_EXPIRE_TIME;
 
 import com.server.eventee.domain.member.model.Member;
 import com.server.eventee.domain.member.service.MemberDetailsService;
-import com.server.eventee.global.exception.BaseException;
-import com.server.eventee.global.exception.codes.ErrorCode;
 import eventee.server.auth.token.vo.AccessToken;
 import eventee.server.auth.token.vo.RefreshToken;
+import eventee.server.common.exception.BaseException;
+import eventee.server.common.exception.codes.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;

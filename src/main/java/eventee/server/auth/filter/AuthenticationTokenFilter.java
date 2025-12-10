@@ -1,7 +1,5 @@
 package eventee.server.auth.filter;
 
-
-
 import eventee.server.auth.token.JwtProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
