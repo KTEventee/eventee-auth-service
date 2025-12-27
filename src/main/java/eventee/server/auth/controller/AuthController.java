@@ -16,14 +16,12 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth", description = "소셜 로그인 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
 public class AuthController {
 
   private final GoogleTokenService googleTokenService;
@@ -67,11 +65,12 @@ public class AuthController {
   )
   @PostMapping("/logout")
   public BaseResponse<String> logout(
+      @RequestParam Long memberId,
       @CookieValue(value = "refreshToken", required = false) String refreshToken,
       HttpServletResponse response
   ) {
 
-    googleTokenService.logout(refreshToken);
+    googleTokenService.logout(memberId, refreshToken);
 
     Cookie cookie = new Cookie("refreshToken", null);
     cookie.setHttpOnly(true);
@@ -82,14 +81,5 @@ public class AuthController {
 
     return BaseResponse.of(SuccessCode.SUCCESS, "로그아웃 완료");
   }
-
-
-  @GetMapping("/test")
-  public BaseResponse<LoginResponse> processGoogleLogin(
-          HttpServletResponse response){
-    LoginResponse loginResponse = googleTokenService.getTest();
-    return BaseResponse.of(SuccessCode.SUCCESS, loginResponse);
-  }
-
 
 }

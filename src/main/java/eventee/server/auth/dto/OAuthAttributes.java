@@ -1,7 +1,5 @@
 package eventee.server.auth.dto;
 
-import com.server.eventee.domain.member.model.Member;
-import com.server.eventee.domain.member.model.Member.Role;
 import java.util.Map;
 import lombok.Builder;
 
@@ -13,15 +11,6 @@ public record OAuthAttributes(
     String name
 ) {
 
-  public Member toEntity() {
-    return Member.builder()
-        .socialId(sub)
-        .email(email)
-        .nickname(name)
-        .profileImageKey(getDefaultProfileImage())
-        .role(Role.USER)
-        .build();
-  }
 
   public static OAuthAttributes of(Map<String, Object> attributes) {
     return OAuthAttributes.builder()
@@ -32,7 +21,4 @@ public record OAuthAttributes(
         .build();
   }
 
-  private String getDefaultProfileImage() {
-    return "profile_default.png";
-  }
 }
