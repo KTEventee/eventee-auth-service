@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.0'
+	id 'org.springframework.boot' version '3.2.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -19,11 +19,58 @@ repositories {
 }
 
 dependencies {
+	// 공통 모듈
+	implementation "eventee.server:common:v0.5.0"
+
+	// 스프링 스타터
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// 롬복
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
+	//oauth
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//swagger
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0"
+
+	//postgres
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.postgresql:postgresql:42.7.3'
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
+	// WebClientt
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+repositories {
+	maven {
+		name = 'GitHubPackages'
+		url = uri("https://maven.pkg.github.com/KTEventee/eventee-common")  // GitHub 리포지토리 URL
+		credentials {
+			username = project.findProperty("gpr.user") ?: System.getenv("COMMON_USERNAME_GITHUB")
+			password = project.findProperty("gpr.token") ?: System.getenv("COMMON_TOKEN_GITHUB")
+		}
+	}
 }
